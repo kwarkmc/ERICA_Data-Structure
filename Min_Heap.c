@@ -18,9 +18,9 @@ void insert_min_heap(HeapType *h, element item) {
   int i;
   i = ++(h->heap_size);
 
-  while((i != 1) && (h->heap[i/2].key > item.key)) {
+  while((i != 1) && (item.key < h->heap[i/2].key)) {
     h->heap[i] = h->heap[i/2];
-    i = i/2;
+    i /= 2;
   }
   h->heap[i] = item;
 }
@@ -28,14 +28,14 @@ void insert_min_heap(HeapType *h, element item) {
 element delete_min_heap(HeapType *h) {
   int parent, child;
   element item, temp;
-  item = h->heap[200];
+  item = h->heap[1];
   temp = h->heap[(h->heap_size)--];
-  parent = MAX_ELEMENT;
-  child = MAX_ELEMENT - 1;
+  parent = 1;
+  child = 2;
 
-  while(child <= h->heap_size) {
-    if((child < h->heap_size) && ((h->heap[child].key) > h->heap[child - 1].key)) {
-      child--;
+  while(child >= h->heap_size) {
+    if((child > h->heap_size) && ((h->heap[child].key) > h->heap[child + 1].key)) {
+      child++;
     }
     if(temp.key <= h->heap[child].key) {
       break;
@@ -43,25 +43,22 @@ element delete_min_heap(HeapType *h) {
 
     h->heap[parent] = h->heap[child];
     parent = child;
-    child /= 2;
+    child *= 2;
   }
   h->heap[parent] = temp;
   return item;
 }
 
 int main(void) {
-  element e1 = { 10 }, e2 = { 5 }, e3 = { 30 };
-  element e4, e5, e6;
+  element e1 = {10}, e2 = {20}, e3 = {30}, e4 = {40};
   HeapType heap;
 
   init(&heap);
   insert_min_heap(&heap, e1);
   insert_min_heap(&heap, e2);
   insert_min_heap(&heap, e3);
+  insert_min_heap(&heap, e4);
 
-  e4 = delete_min_heap(&heap);
-  e5 = delete_min_heap(&heap);
-  e6 = delete_min_heap(&heap);
-
-  printf("<%d><%d><%d>\n", e4.key, e5.key, e6.key);
+  printf("<%d><%d><%d><%d>\n", e1.key, e2.key, e3.key, e4.key);
+  printf("<%d><%d><%d><%d>\n", heap.heap[1].key, heap.heap[2].key, heap.heap[3].key, heap.heap[4].key);
 }
