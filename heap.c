@@ -9,5 +9,4 @@ int main(void) {
     t[i] = rand();
     insertMaxHeap(&heap, t[i]);
   }
-  ?
 }
